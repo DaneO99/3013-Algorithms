@@ -1,33 +1,3 @@
-/**
- * This program uses a "getch" function which means "get character".
- * However, getch does not print the character to the terminal, it
- * lets you decide what to do based on what character you are pressing.
- *
- * You can test which characters are being pressed using their ascii values.
- *
- * An ascii table here should be helpful
- *      http://www.asciitable.com/
- *
- * Some integer values for some keys:
- *      LowerCase Letters   = 97(a) -> 122(z)
- *      UpperCase Letters   = 65(A) -> 90(Z)
- *      Enter Key           = 10
- *      Space Bar           = 32
- *
- *      Arrow Keys          = Have same values as some letters
- *                            so we can't distinguish between
- *                            the two (in this context).
- *
- * Code below is a basic example of using a "getch" function along with
- * searching an array of words for partial matches.
- *
- * https://repl.it/@rugbyprof/getchexample#main.cpp
-
- rang only depends on C++ standard library, unistd.h system header on unix and
- windows.h & io.h system headers on windows based systems. In other words, you
- don't need any 3rd party dependencies.
- */
-
 #include "./headers/console.hpp"
 #include "./headers/rang.hpp"
 #include "./headers/json.hpp"
@@ -73,10 +43,9 @@ void horizontalBar(int length = console_size.width)
 void printCurrent(char k, string word) 
 {
     cout << fg::green << style::bold << "KeyPressed: \t\t" << style::reset << fgB::yellow;
-    if (int(k) == 127) 
-    {
+    if (int(k) == 127) {
         cout << "del";
-    } 
+    }
     else 
     {
         cout << k;
@@ -172,16 +141,14 @@ int main()
     clearConsole();
     titleBar("Dictionary Search", console_size.width);
 
-    while ((k = getch()) != 'Z') 
-    {
+    while ((k = getch()) != 'Z') {
         clearConsole();
         titleBar("Dictionary Search", console_size.width);
 
         auto start = high_resolution_clock::now(); // Start the timer
 
-        if ((int)k == 127) 
-        {
-            if (substr.size() > 0)
+        if ((int)k == 127) {
+            if (substr.size() > 0) 
             {
                 substr.pop_back();
             }
@@ -208,14 +175,15 @@ int main()
 
         auto stop = high_resolution_clock::now(); // Stop the timer
         auto duration = duration_cast<milliseconds>(stop - start); // Calculate duration
+
         // Print matches and duration
         cout << style::bold << style::underline << fg::black << "MATCHES: " << fg::green << matches.size() << style::reset << fg::reset << endl;
         cout << "Time taken: " << duration.count() << " milliseconds" << endl;
-        for (const string& match : matches) 
-        {
+        for (const string& match : matches) {
             printHighlightedSubstr(match, substr);
             cout << endl;
         }
     }
+
     return 0;
 }
